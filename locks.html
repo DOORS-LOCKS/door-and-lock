@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Premium Security Locks</title>
+<link rel="icon" type="image/png" href="logo DOOR.png">
+
+
+<style>
+
+:root{
+--bg:#0b0c10;
+--gold:#d4af37;
+--panel-bg: #161b23;
+--card-bg: #1b212c;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:var(--bg);
+font-family:'Segoe UI', Arial, sans-serif;
+color:#fff;
+overflow-x:hidden;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 8%;
+border-bottom:1px solid #222;
+position:relative;
+z-index: 1000;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+letter-spacing: 2px;
+}
+
+.logo span{
+color:var(--gold);
+}
+
+.menu{
+display:none;
+background:none;
+border:none;
+color:white;
+font-size:34px;
+cursor:pointer;
+transition: transform 0.3s ease;
+}
+
+/* Hamburger button rotation on click */
+.menu.open {
+transform: rotate(90deg);
+color: var(--gold);
+}
+
+nav{
+display:flex;
+gap:25px;
+align-items:center;
+}
+
+nav a{
+text-decoration:none;
+color:#888;
+font-size: 14px;
+letter-spacing: 1px;
+text-transform: uppercase;
+transition: .3s;
+cursor: pointer;
+padding: 6px 12px;
+}
+
+nav a.active, nav a:hover{
+color:var(--gold);
+}
+
+nav a#navAccessories {
+border: 1px solid var(--gold);
+border-radius: 999px;
+color: var(--gold);
+padding: 10px 24px;
+font-weight: 600;
+box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+transition: all 0.4s ease;
+}
+
+nav a#navAccessories:hover, nav a#navAccessories.active {
+background: var(--gold);
+color: #000 !important;
+box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+transform: translateY(-1px);
+}
+
+.container{
+padding:50px 8%;
+}
+
+.panel{
+background:linear-gradient(180deg,#161b23,#11151d);
+padding:45px;
+border-radius:28px;
+border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.heading{
+text-align:center;
+font-size:38px;
+font-weight: 800;
+letter-spacing: 2px;
+margin-bottom:10px;
+text-transform: uppercase;
+}
+
+.sub{
+text-align:center;
+color:var(--gold);
+margin-bottom:35px;
+font-size: 14px;
+letter-spacing: 3px;
+text-transform: uppercase;
+}
+
+/* MOBILE IN-PAGE NAVIGATION */
+.mobile-nav-box {
+display: none;
+justify-content: center;
+gap: 20px;
+margin-bottom: 30px;
+}
+
+.mobile-nav-link {
+font-size: 13px;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: #666;
+text-decoration: none;
+padding: 5px 10px;
+border-bottom: 2px solid transparent;
+cursor: pointer;
+font-weight: 600;
+}
+
+.mobile-nav-link.active {
+color: var(--gold);
+border-color: var(--gold);
+}
+
+/* NAVIGATION TABS (BY TYPE) */
+.category-tabs {
+display: flex;
+justify-content: center;
+gap: 20px;
+margin-bottom: 50px;
+border-bottom: 1px solid rgba(255,255,255,0.05);
+padding-bottom: 20px;
+}
+
+.tab-btn {
+background: none;
+border: none;
+color: #888;
+font-size: 16px;
+font-weight: 600;
+padding: 10px 25px;
+cursor: pointer;
+transition: .3s;
+position: relative;
+letter-spacing: 1px;
+}
+
+.tab-btn:hover, .tab-btn.active {
+color: var(--gold);
+}
+
+.tab-btn.active::after {
+content: '';
+position: absolute;
+bottom: -21px;
+left: 0;
+width: 100%;
+height: 2px;
+background: var(--gold);
+}
+
+/* SECOND PANEL (FILTER SECTION) */
+.brand-grid-container {
+margin-top: 30px;
+padding: 25px;
+background: rgba(255, 255, 255, 0.01);
+border-radius: 20px;
+border: 1px solid rgba(255, 255, 255, 0.04);
+backdrop-filter: blur(10px);
+position: relative;
+}
+
+.section-title {
+font-size: 12px;
+color: #666;
+letter-spacing: 3px;
+text-transform: uppercase;
+margin-bottom: 22px;
+text-align: center;
+font-weight: 700;
+}
+
+.brand-flex-list {
+display: flex;
+justify-content: center;
+gap: 16px;
+flex-wrap: wrap;
+}
+
+.brand-card {
+background: #141923;
+border: 1px solid rgba(255, 255, 255, 0.06);
+padding: 16px 40px;
+border-radius: 14px;
+cursor: pointer;
+transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+min-width: 150px;
+text-align: center;
+font-weight: 600;
+font-size: 14px;
+letter-spacing: 1.5px;
+color: #888;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+position: relative;
+overflow: hidden;
+}
+
+.brand-card:hover {
+color: #fff;
+border-color: rgba(212, 175, 55, 0.4);
+background: #1a202c;
+transform: translateY(-4px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.brand-card.active {
+border-color: var(--gold);
+color: var(--gold);
+background: linear-gradient(145deg, #1b212c, #11151d);
+box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+font-weight: 700;
+}
+
+.brand-card.active::before {
+content: '';
+position: absolute;
+top: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 40%;
+height: 3px;
+background: var(--gold);
+border-radius: 0 0 4px 4px;
+}
+
+/* LOCK PRODUCT GRID */
+.lock-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
+.card{
+background:var(--card-bg);
+border-radius:20px;
+overflow:hidden;
+transition:.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+border: 1px solid rgba(255,255,255,0.02);
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+border-color: rgba(214, 175, 55, 0.2);
+}
+
+.card .img-box {
+width: 100%;
+height: 240px;
+overflow: hidden;
+background: #111;
+}
+
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+transition: .5s;
+}
+
+.card:hover img {
+transform: scale(1.05);
+}
+
+.info{
+padding:25px;
+background: linear-gradient(to bottom, #1b212c, #141922);
+}
+
+.info h3{
+color:#fff;
+font-size: 18px;
+margin-bottom:8px;
+font-weight: 600;
+}
+
+.info .brand-tag {
+font-size: 11px;
+color: var(--gold);
+text-transform: uppercase;
+letter-spacing: 1.5px;
+margin-bottom: 12px;
+display: inline-block;
+}
+
+.info p{
+color:#888;
+font-size: 14px;
+line-height: 1.5;
+}
+
+@media(max-width:768px){
+header{ padding:16px 5%; }
+.logo{ font-size:20px; }
+.menu{ display:block; }
+
+/* 🌟 UPDATED ANIMATED MOBILE MENU STYLE 🌟 */
+nav{
+display: flex; /* display none മാറ്റാൻ വേണ്ടി */
+position:absolute;
+top:75px;
+right:15px;
+width:240px;
+background: rgba(17, 21, 29, 0.96);
+backdrop-filter:blur(20px);
+padding:18px;
+border-radius:20px;
+border: 1px solid rgba(255, 255, 255, 0.05);
+flex-direction:column;
+gap:4px;
+z-index:999;
+align-items: stretch;
+
+/* Default State Before Animation (Hidden) */
+opacity: 0;
+transform: translateY(-20px) scale(0.95);
+pointer-events: none; /* അടഞ്ഞിരിക്കുമ്പോൾ ക്ലിക്ക് വീഴാതിരിക്കാൻ */
+transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* 🌟 Active State (When Opened with Animation) 🌟 */
+nav.show{ 
+opacity: 1; 
+transform: translateY(0) scale(1);
+pointer-events: auto;
+box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+nav a{ 
+padding:12px 16px; 
+border-radius:12px; 
+/* Links default entry fade state */
+opacity: 0;
+transform: translateX(-10px);
+transition: all 0.3s ease;
+}
+
+nav a:hover{ background:#1c222e; color: var(--gold); }
+
+/* 🌟 Links sequential fade in delay when menu is opened 🌟 */
+nav.show a {
+opacity: 1;
+transform: translateX(0);
+}
+nav.show a:nth-child(1) { transition-delay: 0.1s; }
+nav.show a:nth-child(2) { transition-delay: 0.15s; }
+nav.show a:nth-child(3) { transition-delay: 0.2s; }
+nav.show a:nth-child(4) { transition-delay: 0.25s; }
+
+nav a#navAccessories {
+border: none;
+border-radius: 12px;
+padding: 12px 16px;
+box-shadow: none;
+color: #888;
+font-weight: normal;
+}
+nav a#navAccessories:hover, nav a#navAccessories.active {
+background: #1c222e;
+color: var(--gold) !important;
+box-shadow: none;
+transform: none;
+}
+
+.mobile-nav-box { display: flex; }
+
+.container{ padding:20px; }
+.panel{ padding:25px; border-radius:24px; }
+.heading{ font-size:26px; }
+
+.brand-grid-container { padding: 15px; border-radius: 16px; margin-top: 20px;}
+.section-title { margin-bottom: 15px; }
+
+.category-tabs {
+overflow-x: auto;
+justify-content: flex-start;
+scrollbar-width: none;
+padding-bottom: 10px;
+margin-bottom: 30px;
+}
+.category-tabs::-webkit-scrollbar { display: none; }
+.tab-btn { white-space: nowrap; padding: 10px 15px; font-size: 14px; }
+
+.brand-grid-container::after {
+content: '';
+position: absolute;
+top: 50px;
+right: 0;
+width: 40px;
+height: 55px;
+background: linear-gradient(to left, #12151c, transparent);
+pointer-events: none;
+z-index: 2;
+}
+
+.brand-flex-list { 
+justify-content: flex-start; 
+overflow-x: auto; 
+flex-wrap: nowrap; 
+padding-bottom: 12px; 
+gap: 12px;
+scrollbar-width: auto; 
+}
+
+.brand-flex-list::-webkit-scrollbar {
+display: block;
+height: 3px;
+}
+.brand-flex-list::-webkit-scrollbar-track {
+background: rgba(255, 255, 255, 0.03);
+border-radius: 10px;
+}
+.brand-flex-list::-webkit-scrollbar-thumb {
+background: var(--gold);
+border-radius: 10px;
+opacity: 0.7;
+}
+
+.brand-card { min-width: 130px; padding: 12px 25px; font-size: 13px;}
+.lock-grid{ grid-template-columns:1fr; }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">DOORS<span>&</span>LOCKS</div>
+<button class="menu" id="menuBtn" onclick="toggleMenu()">☰</button>
+<nav id="nav">
+<a href="home.html">Home</a>
+<a href="doors.html">Doors</a>
+<a class="active" id="navLocks" onclick="handleNavClick('locks')">Locks</a>
+<a id="navAccessories" onclick="handleNavClick('accessories')">Accessories</a>
+</nav>
+</header>
+
+<div class="container">
+<div class="panel">
+
+<div class="heading" id="mainHeading">EXQUISITE COLLECTION</div>
+<div class="sub" id="mainSub">Filter by Premium Categories</div>
+
+<div class="mobile-nav-box">
+<span class="mobile-nav-link active" id="mobLocks" onclick="handleNavClick('locks')">Locks</span>
+<span class="mobile-nav-link" id="mobAccessories" onclick="handleNavClick('accessories')">Accessories</span>
+</div>
+
+<div class="category-tabs" id="categoryTabsOuter">
+<button class="tab-btn active" onclick="switchCategory('door_locks', this)">DOOR LOCKS</button>
+<button class="tab-btn" onclick="switchCategory('padlocks', this)">PADLOCKS</button>
+<button class="tab-btn" onclick="switchCategory('digital_locks', this)">DIGITAL SMART LOCKS</button>
+</div>
+
+<div class="brand-grid-container" id="filterSection">
+<div class="section-title" id="filterTitle">FILTER BY BRAND</div>
+<div class="brand-flex-list" id="filterList"></div>
+</div>
+
+<div class="lock-grid" id="lockGrid"></div>
+
+</div>
+</div>
+
+<script>
+
+function toggleMenu(){
+document.getElementById("nav").classList.toggle("show");
+document.getElementById("menuBtn").classList.toggle("open");
+}
+
+// Data Structure
+const data = {
+door_locks: {
+"GODREJ": [
+["Ultra Mortise Lock Set", "https://picsum.photos/600/400?random=1", "Premium luxury handle set with double throw deadbolt for entrance."],
+["Main Door Tribolt Lock", "https://picsum.photos/600/400?random=2", "Classic high-security mechanical rim lock with satin nickel finish."],
+["E-Laptop Safe Lock", "https://picsum.photos/600/400?random=3", "Motorized locking mechanism designed for premium home cabinets."],
+["Classic Cylindrical Lock", "https://picsum.photos/600/400?random=4", "Stainless steel cylindrical lock ideal for modern office interiors."],
+["Interlocking Rim Latch", "https://picsum.photos/600/400?random=5", "Heavy-duty night latch offering ultimate single leaf door safety."],
+["Premium Night Latch XL", "https://picsum.photos/600/400?random=6", "Reinforced armor body with scratch-resistant premium polish."]
+],
+"YALE": [
+["European Mortise Body", "https://picsum.photos/600/400?random=7", "Sleek architectural hardware lock body crafted for luxury spaces."],
+["Essential Series Latch", "https://picsum.photos/600/400?random=8", "Ergonomic lock design providing seamless aesthetic and high security."],
+["Pro Security Rim Deadbolt", "https://picsum.photos/600/400?random=9", "Dual-stage locking deadbolt with hardened steel anti-saw pins."],
+["Accent Handle Lock Set", "https://picsum.photos/600/400?random=10", "Designer collection interior privacy handles with brass cylinder."],
+["Heavy Duty Night Latch", "https://picsum.photos/600/400?random=11", "Traditional British-style pull latch featuring unpickable technology."],
+["Luxury Privacy Knob Lock", "https://picsum.photos/600/400?random=12", "Satin chrome knob lock tailored for master bedrooms and cabins."]
+],
+"EUROPA": [
+["Hexabolt Armor Latch", "https://picsum.photos/600/400?random=13", "The ultimate high security solution with 6 unpickable bullet bolts."],
+["Jumbo Rim Lock 1470", "https://picsum.photos/600/400?random=14", "Extra-strong steel body rim lock built for heavy double doors."],
+["Stainless Steel Mortise", "https://picsum.photos/600/400?random=15", "Corrosion-free architectural series finish for coastal environments."],
+["Disc Rotation Padlatch", "https://picsum.photos/600/400?random=16", "Smart key operation system with unique master key compatibility."],
+["Luxury Central Deadbolt", "https://picsum.photos/600/400?random=17", "Heavy-gauge iron deadbolt providing dual-axis structural defense."],
+["Classic Sliding Door Lock", "https://picsum.photos/600/400?random=18", "Specially hook-shaped security latch designed for sliding panels."]
+]
+},
+padlocks: {
+"LINK": [
+["Heavy Duty Brass Lock", "https://picsum.photos/600/400?random=19", "Hardened steel shackle padlock offering weather resistance."],
+["Bullet Shutter Lock 90", "https://picsum.photos/600/400?random=20", "Ultra-reinforced armor lock engineered for commercial store shutters."],
+["Vanguard Disc Padlock", "https://picsum.photos/600/400?random=21", "Round anti-cut disc shape design making it completely saw-proof."],
+["Classic Iron Shackle", "https://picsum.photos/600/400?random=22", "Traditional heavy industrial padlock with dual side safety locking."],
+["Waterproof Marine Lock", "https://picsum.photos/600/400?random=23", "Special plastic jacket coating protecting lock from heavy rain & rust."],
+["Combination Number Padlock", "https://picsum.photos/600/400?random=24", "4-digit keyless security system perfect for gym lockers and luggage."]
+],
+"GODREJ": [
+["Nav-Tal 8 Levers Classic", "https://picsum.photos/600/400?random=25", "India's most trusted heritage brass padlock with double locking."],
+["Sherlock Anti-Cut Lock", "https://picsum.photos/600/400?random=26", "Hardened boron shackle providing extreme resistance against hacksaws."],
+["Freedom 7 Levers Padlock", "https://picsum.photos/600/400?random=27", "Ergonomic rustless rivets layout designed for home main gates."],
+["Nav-Tal Ultra XL Series", "https://picsum.photos/600/400?random=28", "Upgraded long shackle edition for thick chain links and warehouses."],
+["Round Armor Disc Lock", "https://picsum.photos/600/400?random=29", "Tough steel jacket block that leaves no room for bolt cutters."],
+["Square Block Padlock", "https://picsum.photos/600/400?random=30", "Monoblock style compact design perfect for securing server racks."]
+]
+},
+digital_locks: {
+"YALE": [
+["Biometric Smart Touch Pro", "https://picsum.photos/600/400?random=31", "Advanced fingerprint, numeric code, and mobile app-controlled system."],
+["RFID Luxury Card Access", "https://picsum.photos/600/400?random=32", "High frequency smart card scanner with sleek hidden touch interface."],
+["YDM 4109+ Premium Plus", "https://picsum.photos/600/400?random=33", "Voice-guided artificial intelligence lock featuring mechanical override."],
+["Sleek Glass Rim Smart Lock", "https://picsum.photos/600/400?random=34", "Keyless specialized automatic locking system built for office glass doors."],
+["IoT Connected Wi-Fi Deadbolt", "https://picsum.photos/600/400?random=35", "Generate temporary OTP guest access codes from anywhere globally."],
+["Friction Track Face ID Lock", "https://picsum.photos/600/400?random=36", "Ultra-modern face recognition infrared optical scanning lock panel."]
+],
+"GODREJ": [
+["Advantis Touchscreen Lock", "https://picsum.photos/600/400?random=37", "High privacy touchscreen with fake-PIN code entry and break-in alarm."],
+["Catus Touch Biometric Knob", "https://picsum.photos/600/400?random=38", "Compact fingerprint handle lock tailored for private rooms."],
+["Advantis Rim Smart Safe", "https://picsum.photos/600/400?random=39", "Dual password authorization logic ensuring high security."],
+["Aura Face ID Smart Door Set", "https://picsum.photos/600/400?random=40", "Premium built-in doorbell camera system with screen view."],
+["Solus Connected Smart Padlock", "https://picsum.photos/600/400?random=41", "Bluetooth operated heavy padlock manageable via smartphone app."],
+["Cyber Digital Cabinet Lock", "https://picsum.photos/600/400?random=42", "Minimal vertical numeric locker panel ideal for luxury wardrobes."]
+]
+},
+accessories: {
+"HANDLES": [
+["Luxury Brass Pull Handle", "https://picsum.photos/600/400?random=43", "Solid antique brass finished pull bars to elevate entrance doors."],
+["Sleek Matt Black Lever", "https://picsum.photos/600/400?random=44", "Minimalist matte black aluminum handles for architectural villas."],
+["Crystal Premium Knob Set", "https://picsum.photos/600/400?random=45", "Exquisite designer cut glass knobs providing a royal look."],
+["Rose Gold Profile Grip", "https://picsum.photos/600/400?random=46", "Anodized rose gold long profile hardware tailored for high cabinets."],
+["Stainless Steel D-Pull", "https://picsum.photos/600/400?random=47", "Satin finish heavy industrial grade long handles for commercial entries."],
+["Antique Premium Wooden Handle", "https://picsum.photos/600/400?random=48", "Handcrafted premium teak wood fused with solid brass side clips."]
+],
+"HINGES": [
+["Concealed 3D Steel Hinges", "https://picsum.photos/600/400?random=49", "Heavy-weight stainless steel durable hidden architectural hinges."],
+["Ball Bearing Hydraulic Hinge", "https://picsum.photos/600/400?random=50", "Self soft-closing mechanism ensuring completely silent door operations."],
+["Brass Butterfly Flush Hinge", "https://picsum.photos/600/400?random=51", "Classic high-strength polished brass hinges for interior windows."],
+["Heavy Duty Pivot System", "https://picsum.photos/600/400?random=52", "360-degree rotation axis support designed for massive main villa doors."],
+["Stainless Steel Butt Hinge", "https://picsum.photos/600/400?random=53", "High-gauge weatherproof metal layout with smooth graphite rings."],
+["Spring Loaded Door Closer Hinge", "https://picsum.photos/600/400?random=54", "Integrated automatic tension spring design avoiding heavy slams."]
+],
+"KEYCHAINS": [
+["Leather Key Organizer XL", "https://picsum.photos/600/400?random=55", "Minimalist genuine leather strap pouch with metallic secure ring."],
+["Carbon Fiber Tactical Ring", "https://picsum.photos/600/400?random=56", "Ultra-lightweight high durability key clip with integrated opener."],
+["Solid Brass Smart Carabiner", "https://picsum.photos/600/400?random=57", "Luxury vintage clip style secure loop optimized for belt attachment."],
+["Premium Alcantara Key Fob", "https://picsum.photos/600/400?random=58", "Elegant grey soft fabric loop matching premium luxury car fobs."],
+["Metallic Smart Key Organizer", "https://picsum.photos/600/400?random=59", "Sleek Swiss-army knife style pocket friendly metal key compact tool."],
+["Gold Plated Anchor Keychain", "https://picsum.photos/600/400?random=60", "High polish 24k gold tone finished anchor shape maritime souvenir."]
+]
+}
+};
+
+let currentCategory = 'door_locks';
+
+function handleNavClick(menuType) {
+    document.getElementById("navLocks").classList.remove("active");
+    document.getElementById("navAccessories").classList.remove("active");
+    document.getElementById("mobLocks").classList.remove("active");
+    document.getElementById("mobAccessories").classList.remove("active");
+    
+    if(menuType === 'accessories') {
+        document.getElementById("navAccessories").classList.add("active");
+        document.getElementById("mobAccessories").classList.add("active");
+        
+        document.getElementById("categoryTabsOuter").style.display = "none"; 
+        document.getElementById("mainHeading").innerText = "PREMIUM ACCESSORIES";
+        document.getElementById("mainSub").innerText = "Architectural Hardware & Styling";
+        switchCategory('accessories', null);
+    } else {
+        document.getElementById("navLocks").classList.add("active");
+        document.getElementById("mobLocks").classList.add("active");
+        
+        document.getElementById("categoryTabsOuter").style.display = "flex"; 
+        document.getElementById("mainHeading").innerText = "EXQUISITE COLLECTION";
+        document.getElementById("mainSub").innerText = "Filter by Premium Categories";
+        
+        const firstTab = document.querySelector(".tab-btn");
+        switchCategory('door_locks', firstTab);
+    }
+    
+    // Smooth exit
+    document.getElementById("nav").classList.remove("show");
+    document.getElementById("menuBtn").classList.remove("open");
+}
+
+function switchCategory(catName, element) {
+currentCategory = catName;
+
+if(element) {
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    element.classList.add("active");
+}
+
+const filterTitle = document.getElementById("filterTitle");
+const filterList = document.getElementById("filterList");
+
+if(catName === 'accessories') {
+filterTitle.innerText = "EXPLORE BY ACCESSORY TYPE";
+} else {
+filterTitle.innerText = "FILTER BY BRAND";
+}
+
+filterList.innerHTML = "";
+document.getElementById("lockGrid").innerHTML = "";
+
+Object.keys(data[catName]).forEach((filterItem, index) => {
+const activeClass = index === 0 ? 'active' : '';
+filterList.innerHTML += `
+<div class="brand-card ${activeClass}" onclick="loadProducts('${filterItem}', this)">
+${filterItem}
+</div>
+`;
+});
+
+const firstFilter = filterList.querySelector(".brand-card");
+if(firstFilter) {
+firstFilter.click();
+}
+}
+
+function loadProducts(filterKey, element) {
+document.querySelectorAll(".brand-card").forEach(card => card.classList.remove("active"));
+element.classList.add("active");
+
+const grid = document.getElementById("lockGrid");
+grid.innerHTML = "";
+
+data[currentCategory][filterKey].forEach(lock => {
+grid.innerHTML += `
+<div class="card">
+<div class="img-box">
+<img src="${lock[1]}" alt="${lock[0]}" loading="lazy">
+</div>
+<div class="info">
+<span class="brand-tag">${filterKey}</span>
+<h3>${lock[0]}</h3>
+<p>${lock[2]}</p>
+</div>
+</div>
+`;
+});
+}
+
+switchCategory('door_locks', document.querySelector(".tab-btn"));
+
+</script>
+
+</body>
+</html>
