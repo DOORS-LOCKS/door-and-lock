@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Premium Doors & Accessories</title>
-<link rel="icon" type="image/png" href="logo DOOR.png" alt="Modern security door">
+<link class="icon" type="image/png" href="logo DOOR.png" alt="Modern security door">
 
 <style>
 :root{
@@ -357,7 +357,28 @@ line-height: 1.5;
 margin-bottom: 12px;
 }
 
-/* --- PRICE STYLING --- */
+.for-more-btn {
+background: #0d1118;
+border: 1px solid #222;
+color: #bbb;
+font-size: 11px;
+font-weight: 600;
+padding: 6px 12px;
+border-radius: 6px;
+cursor: pointer;
+margin-bottom: 15px;
+text-transform: uppercase;
+letter-spacing: 1px;
+align-self: flex-start;
+transition: 0.2s;
+}
+
+.for-more-btn:hover {
+background: #000;
+color: #fff;
+border-color: #444;
+}
+
 .price-box {
 display: flex;
 align-items: center;
@@ -408,7 +429,7 @@ color: #000;
 border-color: var(--gold);
 }
 
-/* --- PRODUCT DETAILS PAGE (MODAL) STYLES --- */
+/* --- PRODUCT DETAILS PAGE (MODAL) --- */
 .detail-overlay {
 position: fixed;
 top: 0;
@@ -466,16 +487,76 @@ background: var(--gold);
 color: #000;
 }
 
+/* --- COMPUTER VIEW STYLING --- */
 .detail-img-box {
 flex: 1;
 min-height: 450px;
 background: #000;
+position: relative;
+overflow: hidden;
 }
 
-.detail-img-box img {
+.slider-wrapper {
+display: flex;
+width: 100%;
+height: 100%;
+transition: transform 0.4s ease-in-out;
+}
+
+.slider-wrapper img {
 width: 100%;
 height: 100%;
 object-fit: cover;
+flex-shrink: 0;
+}
+
+/* Computer-ൽ ബട്ടണുകൾ മാത്രം കാണിക്കും */
+.slider-btn {
+display: block;
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background: rgba(0,0,0,0.6);
+color: #fff;
+border: none;
+padding: 12px;
+cursor: pointer;
+font-size: 18px;
+z-index: 5;
+border-radius: 4px;
+transition: 0.2s;
+}
+.slider-btn:hover { background: var(--gold); color: #000; }
+.slider-btn.prev { left: 10px; }
+.slider-btn.next { right: 10px; }
+
+.slider-dots {
+display: flex;
+position: absolute;
+bottom: 15px;
+left: 50%;
+transform: translateX(-50%);
+gap: 8px;
+z-index: 5;
+background: rgba(0,0,0,0.4);
+padding: 6px 12px;
+border-radius: 20px;
+backdrop-filter: blur(5px);
+}
+
+.dot {
+width: 8px;
+height: 8px;
+background: rgba(255,255,255,0.4);
+border-radius: 50%;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.dot.active {
+background: var(--gold);
+width: 20px;
+border-radius: 4px;
 }
 
 .detail-info-box {
@@ -559,7 +640,7 @@ background: #20ba5a;
 box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
 }
 
-/* RESPONSIVE MEDIA QUERIES */
+/* --- MOBILE VIEW (MEDIA SCREEN CHANGES) --- */
 @media(max-width:768px){
 header{ padding:16px 5%; }
 .menu{ display:flex; }
@@ -637,40 +718,62 @@ margin-top: 20px;
 .card .img-box { height: 140px; }
 .info { padding: 10px; }
 .info h3 { font-size: 13px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.info p { font-size: 11px; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; }
+.info p { font-size: 11px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; }
+.for-more-btn { padding: 4px 8px; font-size: 9px; margin-bottom: 8px; }
 .price-box { gap: 6px; margin-bottom: 10px; }
 .offer-price { font-size: 14px; }
 .original-price { font-size: 11px; }
 .discount-badge { font-size: 9px; padding: 1px 4px; }
 .book-btn { padding: 8px 4px; font-size: 10px; border-radius: 6px; }
 
-/* Details Responsive */
+/* മൊബൈലിൽ സ്ലൈഡിങ് ബട്ടണുകൾ മാത്രം ഹൈഡ് ചെയ്യുന്നു */
+.slider-btn { display: none !important; }
+
+/* മൊബൈലിൽ ഡോട്ട്സ് കാണിക്കും (ചിത്രം ഉണ്ടെന്ന് അറിയിക്കാൻ വേണ്ടി) */
+.slider-dots { 
+display: flex !important; 
+bottom: 10px;
+padding: 4px 8px;
+}
+.dot { pointer-events: none; } /* മൊബൈലിൽ ഡോട്ട് ക്ലിക്ക് ഒഴിവാക്കുന്നു */
+
+/* മൊബൈലിൽ ടച്ച് സ്വൈപ്പിങ് (Touch Swipe) സെറ്റിങ്സ് */
+.detail-img-box {
+min-height: 250px;
+height: 250px;
+overflow-x: auto !important;
+overflow-y: hidden !important;
+scroll-snap-type: x mandatory;
+-webkit-overflow-scrolling: touch;
+scrollbar-width: none; 
+}
+.detail-img-box::-webkit-scrollbar { display: none; }
+
+.slider-wrapper {
+display: flex;
+width: auto;
+height: 100%;
+transform: none !important; 
+}
+.slider-wrapper img {
+width: 100% !important;
+min-width: 100%;
+height: 100%;
+scroll-snap-align: start;
+object-fit: cover;
+}
+
 .detail-container {
 flex-direction: column;
 max-height: 90vh;
 overflow-y: auto;
 }
-.detail-img-box {
-min-height: 250px;
-height: 250px;
-}
-.detail-info-box {
-padding: 20px;
-}
-.detail-title {
-font-size: 20px;
-margin-bottom: 10px;
-}
-.detail-price-box {
-padding: 8px 15px;
-margin-bottom: 15px;
-}
+.detail-info-box { padding: 20px; }
+.detail-title { font-size: 20px; margin-bottom: 10px; }
+.detail-price-box { padding: 8px 15px; margin-bottom: 15px; }
 .detail-offer { font-size: 18px; }
 .detail-original { font-size: 13px; }
-.detail-desc {
-font-size: 13px;
-margin-bottom: 20px;
-}
+.detail-desc { font-size: 13px; margin-bottom: 20px; }
 }
 </style>
 </head>
@@ -718,11 +821,15 @@ margin-bottom: 20px;
 </div>
 </div>
 
+<!-- PRODUCT MODAL LAYER -->
 <div class="detail-overlay" id="productDetailModal">
 <div class="detail-container">
 <button class="close-detail-btn" onclick="closeProductDetail()">&times;</button>
-<div class="detail-img-box">
-<img id="detailImg" src="" alt="Product Image">
+<div class="detail-img-box" id="detailImgBox">
+<button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
+<button class="slider-btn next" onclick="moveSlider(1)">&#10095;</button>
+<div class="slider-wrapper" id="sliderWrapper"></div>
+<div class="slider-dots" id="sliderDots"></div>
 </div>
 <div class="detail-info-box">
 <span class="detail-tag" id="detailTag">TAG</span>
@@ -808,9 +915,10 @@ accessories: {
 };
 
 let currentCategory = 'Fibre';
+let currentSlideIndex = 0;
+let totalSlides = 0;
 
 function handleNavClick(menuType) {
-    // Error വരാതിരിക്കാൻ എല്ലാ ഐഡികളും ആദ്യം സുരക്ഷിതമായി ചെക്ക് ചെയ്ത് റിമൂവ് ചെയ്യുന്നു
     const navDoors = document.getElementById("navDoors");
     const navAccessories = document.getElementById("navAccessories");
     const mobDoors = document.getElementById("mobDoors");
@@ -885,7 +993,7 @@ function loadProducts(filterKey, element) {
     data[currentCategory][filterKey].forEach((item) => {
         const offerPrice = item[3];
         const origPrice = item[4];
-        const discount = Math.round(((origPrice - offerPrice) / origPrice) * 100);
+        const discount = (origPrice && origPrice > offerPrice) ? Math.round(((origPrice - offerPrice) / origPrice) * 100) : 0;
 
         const titleEscaped = item[0].replace(/'/g, "\\'");
         const imgEscaped = item[1].replace(/'/g, "\\'");
@@ -901,6 +1009,7 @@ function loadProducts(filterKey, element) {
                     <span class="tag">${filterKey}</span>
                     <h3>${item[0]}</h3>
                     <p>${item[2]}</p>
+                    <button class="for-more-btn">For More</button>
                     <div class="price-box">
                         <span class="offer-price">₹${offerPrice.toLocaleString('en-IN')}</span>
                         <span class="original-price">₹${origPrice.toLocaleString('en-IN')}</span>
@@ -915,13 +1024,37 @@ function loadProducts(filterKey, element) {
 
 function openProductDetail(title, img, desc, tag, offerPrice, origPrice) {
     document.getElementById("detailTitle").innerText = title;
-    document.getElementById("detailImg").src = img;
     document.getElementById("detailDesc").innerText = desc;
     document.getElementById("detailTag").innerText = tag;
     
     document.getElementById("detailOfferPrice").innerText = "₹" + offerPrice.toLocaleString('en-IN');
     document.getElementById("detailOriginalPrice").innerText = "₹" + origPrice.toLocaleString('en-IN');
     
+    // Sliders Array
+    const images = [
+        img,
+        img + "&blur=1",
+        img + "&sat=-50",
+        img + "&hue=50"
+    ];
+
+    const wrapper = document.getElementById("sliderWrapper");
+    const dotsContainer = document.getElementById("sliderDots");
+    wrapper.innerHTML = "";
+    dotsContainer.innerHTML = "";
+    
+    images.forEach((src, idx) => {
+        wrapper.innerHTML += `<img src="${src}" alt="Slide ${idx}">`;
+        dotsContainer.innerHTML += `<span class="dot ${idx === 0 ? 'active' : ''}" onclick="setSlide(${idx})"></span>`;
+    });
+
+    currentSlideIndex = 0;
+    totalSlides = images.length;
+    
+    // Position Reset & Mobile scroll reset
+    document.getElementById("detailImgBox").scrollLeft = 0;
+    updateSliderPosition();
+
     document.getElementById("detailBookBtn").onclick = function() {
         alert(title + ' booking request received!');
     };
@@ -934,6 +1067,52 @@ function openProductDetail(title, img, desc, tag, offerPrice, origPrice) {
     document.body.style.overflow = "hidden"; 
 }
 
+function moveSlider(direction) {
+    if (window.innerWidth <= 768) return;
+    currentSlideIndex += direction;
+    if (currentSlideIndex >= totalSlides) currentSlideIndex = 0;
+    if (currentSlideIndex < 0) currentSlideIndex = totalSlides - 1;
+    updateSliderPosition();
+}
+
+function setSlide(index) {
+    if (window.innerWidth <= 768) return;
+    currentSlideIndex = index;
+    updateSliderPosition();
+}
+
+function updateSliderPosition() {
+    const wrapper = document.getElementById("sliderWrapper");
+    
+    if (window.innerWidth > 768) {
+        wrapper.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+        
+        const dots = document.querySelectorAll(".dot");
+        dots.forEach((dot, idx) => {
+            if (idx === currentSlideIndex) dot.classList.add("active");
+            else dot.classList.remove("active");
+        });
+    } else {
+        wrapper.style.transform = `none`;
+    }
+}
+
+// മൊബൈലിൽ കൈകൊണ്ട് സ്വൈപ്പ് ചെയ്യുമ്പോൾ ഡോട്ട്സ് തനിയെ മാറാനുള്ള കിടിലൻ ഫങ്ക്ഷൻ!
+document.getElementById("detailImgBox").addEventListener("scroll", function() {
+    if (window.innerWidth <= 768) {
+        const box = this;
+        const width = box.clientWidth;
+        // നിലവിൽ എത്രാമത്തെ ഇമേജിലാണ് ഉള്ളതെന്ന് കണക്കാക്കുന്നു
+        const index = Math.round(box.scrollLeft / width);
+        
+        const dots = document.querySelectorAll(".dot");
+        dots.forEach((dot, idx) => {
+            if (idx === index) dot.classList.add("active");
+            else dot.classList.remove("active");
+        });
+    }
+});
+
 function closeProductDetail() {
     document.getElementById("productDetailModal").style.display = "none";
     document.body.style.overflow = "auto"; 
@@ -945,6 +1124,10 @@ window.onclick = function(event) {
         closeProductDetail();
     }
 }
+
+window.onresize = function() {
+    updateSliderPosition();
+};
 
 switchCategory('Fibre', document.querySelector(".tab-btn"));
 </script>
