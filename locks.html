@@ -53,9 +53,9 @@ flex-direction:column;
 gap:5px;
 cursor:pointer;
 transition: transform 0.3s ease;
-background: none;
-border: none;
-padding: 5px;
+background:transparent;
+border:2px solid var(--gold);
+padding:0;
 }
 
 .menu span{
@@ -69,14 +69,14 @@ display: block;
 /* Hamburger line animation */
 .menu.open span:nth-child(1) {
 transform: rotate(45deg) translate(5px, 6px);
-background: var(--gold);
+background: #fff;
 }
 .menu.open span:nth-child(2) {
 opacity: 0;
 }
 .menu.open span:nth-child(3) {
 transform: rotate(-45deg) translate(5px, -6px);
-background: var(--gold);
+background: #fff;
 }
 
 nav{
@@ -183,7 +183,7 @@ width: 100%;
 }
 
 .tab-btn {
-background: none;
+background:transparent;
 border: none;
 color: #888;
 font-size: 16px;
@@ -257,7 +257,7 @@ overflow: hidden;
 }
 
 .brand-card:hover {
-color: #fff;
+color: var(--gold);
 border-color: rgba(212, 175, 55, 0.4);
 background: #1a202c;
 transform: translateY(-4px);
@@ -454,7 +454,7 @@ to { opacity: 1; transform: scale(1); }
 position: absolute;
 top: 20px;
 right: 20px;
-background: rgba(255,255,255,0.1);
+background: rgba(212,175,55,.08);
 border: none;
 color: #fff;
 font-size: 24px;
@@ -470,8 +470,10 @@ z-index: 2010;
 }
 
 .close-detail-btn:hover {
-background: var(--gold);
-color: #000;
+background:var(--gold);
+color:#000;
+border:2px solid var(--gold);
+box-shadow:0 0 25px var(--gold),0 0 40px rgba(212,175,55,.5);
 }
 
 .detail-img-box {
@@ -579,7 +581,7 @@ gap: 15px;
 margin-bottom: 20px;
 background: rgba(255,255,255,0.02);
 padding: 12px 20px;
-border-radius: 12px;
+border-radius:999px;
 border: 1px solid rgba(255,255,255,0.04);
 }
 
@@ -686,10 +688,10 @@ transform: translateX(0);
 
 /* --- MOBILE GOLD SHADE FIX FOR ACCESSORIES BUTTON --- */
 nav a#navAccessories {
-border: 1px solid rgba(212, 175, 55, 0.3);
+border:2px solid var(--gold);
 border-radius: 12px;
 padding: 12px 16px;
-box-shadow: none;
+box-shadow:0 0 18px rgba(212,175,55,.45);
 color: #fff;
 font-weight: 600;
 background: transparent;
@@ -735,7 +737,7 @@ gap: 10px;
 width: 100%;
 }
 
-.brand-card { min-width: 120px; padding: 10px 20px; font-size: 12px;}
+.brand-card { min-width:120px; padding:10px 20px 18px; font-size:12px;}
 .lock-grid{ grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; margin-top: 20px; }
 
 .card .img-box { height: 140px; }
@@ -778,6 +780,35 @@ font-size: 13px;
 margin-bottom: 20px;
 }
 }
+
+@media(max-width:768px){
+.slider-dots{
+display:flex!important;
+justify-content:center;
+gap:10px;
+bottom:12px;
+}
+.slider-dots .dot{
+width:12px;
+height:12px;
+background:#444;
+border-radius:50%;
+}
+.slider-dots .dot.active{
+width:12px;
+background:var(--gold);
+box-shadow:0 0 8px var(--gold);
+transform:scale(1.2);
+}
+}
+
+
+/* Premium mobile filter scrollbar */
+.brand-flex-list::-webkit-scrollbar{height:8px}
+.brand-flex-list::-webkit-scrollbar-track{background:#121821;border-radius:20px}
+.brand-flex-list::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#7a6420,#d4af37,#7a6420);border-radius:20px;border:1px solid #d4af37}
+.brand-flex-list{scrollbar-color:#d4af37 #121821;scrollbar-width:thin;}
+
 </style>
 </head>
 
