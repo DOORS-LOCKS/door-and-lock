@@ -54,7 +54,7 @@ gap:5px;
 cursor:pointer;
 transition: transform 0.3s ease;
 background:transparent;
-border:2px solid var(--gold);
+border:none;
 padding:0;
 }
 
@@ -455,8 +455,8 @@ position: absolute;
 top: 20px;
 right: 20px;
 background: rgba(212,175,55,.08);
-border: none;
-color: #fff;
+border:2px solid var(--gold);
+color: var(--gold);
 font-size: 24px;
 width: 45px;
 height: 45px;
@@ -732,7 +732,7 @@ width:100%;
 justify-content: flex-start; 
 overflow-x: auto; 
 flex-wrap: nowrap; 
-padding-bottom: 4px; 
+padding-bottom: 18px; 
 gap: 10px;
 width: 100%;
 }
@@ -1154,10 +1154,10 @@ function setupTouchSwipe() {
 
 function handleSwipeGesture() {
     if (touchStartX - touchEndX > 50) {
-        moveSlider(1);
+        moveSlider(-1);
     }
     if (touchEndX - touchStartX > 50) {
-        moveSlider(-1);
+        moveSlider(1);
     }
 }
 
