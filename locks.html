@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Premium Security Locks</title>
-<link class="icon" type="image/png" href="logo DOOR.png" alt="Modern security door">
+<link class="icon" type="image/png" href="logo DOOR.png" >
 
 <style>
 :root{
@@ -66,7 +66,6 @@ transition: all 0.3s ease;
 display: block;
 }
 
-/* Hamburger line animation */
 .menu.open span:nth-child(1) {
 transform: rotate(45deg) translate(5px, 6px);
 background: #fff;
@@ -358,13 +357,23 @@ display: inline-block;
 color:#888;
 font-size: 13px;
 line-height: 1.5;
-margin-bottom: 12px;
+margin-bottom: 10px;
 }
 
-.info p .for-more-label {
+/* Image-ലുള്ളത് പോലെ പില്‍ ഡിസൈനിലുള്ള ഫോര്‍ മോര്‍ ബട്ടൺ സ്റ്റൈൽ */
+.for-more-badge {
+align-self: flex-start;
+background: #11151d;
+color: #fff;
+border: 1px solid rgba(255, 255, 255, 0.1);
+padding: 5px 14px;
+border-radius: 20px;
+font-size: 11px;
 font-weight: 700;
-color: var(--gold);
-margin-right: 4px;
+letter-spacing: 1px;
+margin-bottom: 15px;
+text-transform: uppercase;
+display: inline-block;
 }
 
 .price-box {
@@ -373,6 +382,7 @@ align-items: center;
 gap: 10px;
 margin-bottom: 15px;
 margin-top: auto;
+flex-wrap: wrap;
 }
 
 .offer-price {
@@ -601,13 +611,7 @@ text-decoration: line-through;
 color: #aaa;
 font-size: 15px;
 line-height: 1.7;
-margin-bottom: 30px;
-}
-
-.detail-desc .for-more-label {
-font-weight: 700;
-color: var(--gold);
-margin-right: 4px;
+margin-bottom: 20px;
 }
 
 .detail-action-btns {
@@ -686,26 +690,6 @@ opacity: 1;
 transform: translateX(0);
 }
 
-/* --- MOBILE GOLD SHADE FIX FOR ACCESSORIES BUTTON --- */
-nav a#navAccessories {
-border:2px solid var(--gold);
-border-radius: 12px;
-padding: 12px 16px;
-box-shadow:0 0 18px rgba(212,175,55,.45);
-color: #fff;
-font-weight: 600;
-background: transparent;
-text-align: center;
-margin-top: 5px;
-}
-nav a#navAccessories:hover, nav a#navAccessories.active {
-background: var(--gold) !important;
-color: #000 !important;
-border-color: var(--gold);
-box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-transform: none;
-}
-
 .mobile-nav-box { display: flex; }
 .container{ padding:12px; width:100%; }
 .panel{ padding:16px; border-radius:20px; width:100%; }
@@ -744,13 +728,15 @@ width: 100%;
 .info { padding: 10px; }
 .info h3 { font-size: 13px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .info p { font-size: 11px; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; }
+.for-more-badge { padding: 3px 10px; font-size: 9px; margin-bottom: 8px; }
 .price-box { gap: 6px; margin-bottom: 10px; }
 .offer-price { font-size: 14px; }
 .original-price { font-size: 11px; }
 .discount-badge { font-size: 9px; padding: 1px 4px; }
 .book-btn { padding: 8px 4px; font-size: 10px; border-radius: 6px; }
 
-.slider-btn { display: none !important; }
+.slider-btn { font-size: 16px; width: 35px; height: 35px; }
+.close-detail-btn { display: none !important; }
 
 .detail-container {
 flex-direction: column;
@@ -802,8 +788,6 @@ transform:scale(1.2);
 }
 }
 
-
-/* Premium mobile filter scrollbar */
 .brand-flex-list::-webkit-scrollbar{height:8px}
 .brand-flex-list::-webkit-scrollbar-track{background:#121821;border-radius:20px}
 .brand-flex-list::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#7a6420,#d4af37,#7a6420);border-radius:20px;border:1px solid #d4af37}
@@ -824,7 +808,6 @@ transform:scale(1.2);
 <a href="doors.html">Doors</a>
 <a href="locks.html" class="active" id="navLocks">Locks</a>
 <a href="contact.html">Contact</a>
-<a id="navAccessories" onclick="handleNavClick('accessories')">Accessories</a>
 </nav>
 </header>
 
@@ -871,6 +854,7 @@ transform:scale(1.2);
 <span class="detail-offer" id="detailOfferPrice">₹0</span>
 <span class="detail-original" id="detailOriginalPrice">₹0</span>
 </div>
+<div class="for-more-badge" style="margin-bottom: 15px;">FOR MORE</div>
 <p class="detail-desc" id="detailDesc"></p>
 <div class="detail-action-btns">
 <button class="book-btn" id="detailBookBtn" style="flex:1; padding:15px;">Book Now</button>
@@ -965,17 +949,14 @@ let totalSlides = 0;
 
 function handleNavClick(menuType) {
     const navLocks = document.getElementById("navLocks");
-    const navAccessories = document.getElementById("navAccessories");
     const mobLocks = document.getElementById("mobLocks");
     const mobAccessories = document.getElementById("mobAccessories");
     
     if(navLocks) navLocks.classList.remove("active");
-    if(navAccessories) navAccessories.classList.remove("active");
     if(mobLocks) mobLocks.classList.remove("active");
     if(mobAccessories) mobAccessories.classList.remove("active");
     
     if(menuType === 'accessories') {
-        if(navAccessories) navAccessories.classList.add("active");
         if(mobAccessories) mobAccessories.classList.add("active");
         
         document.getElementById("categoryTabsOuter").style.display = "none"; 
@@ -1052,6 +1033,7 @@ function loadProducts(filterKey, element) {
         
         const imgsJsonStr = JSON.stringify(lock[1]).replace(/'/g, "\\'");
 
+        // ഇമേജിൽ ഉള്ളതുപോലെ പില്‍ ആകൃതിയിലുള്ള "FOR MORE" ബട്ടൺ കാർഡിൽ നൽകിയിരിക്കുന്നു
         grid.innerHTML += `
             <div class="card" onclick='openProductDetail("${titleEscaped}", ${imgsJsonStr}, "${descEscaped}", "${tagEscaped}", ${offerPrice}, ${origPrice})'>
                 <div class="img-box">
@@ -1060,7 +1042,8 @@ function loadProducts(filterKey, element) {
                 <div class="info">
                     <span class="brand-tag">${filterKey}</span>
                     <h3>${lock[0]}</h3>
-                    <p><span class="for-more-label">For More:</span>${lock[2]}</p>
+                    <p>${lock[2]}</p>
+                    <div class="for-more-badge">FOR MORE</div>
                     <div class="price-box">
                         <span class="offer-price">₹${offerPrice.toLocaleString('en-IN')}</span>
                         <span class="original-price">₹${origPrice.toLocaleString('en-IN')}</span>
@@ -1075,7 +1058,7 @@ function loadProducts(filterKey, element) {
 
 function openProductDetail(title, imgArray, desc, tag, offerPrice, origPrice) {
     document.getElementById("detailTitle").innerText = title;
-    document.getElementById("detailDesc").innerHTML = `<span class="for-more-label">For More:</span>${desc}`;
+    document.getElementById("detailDesc").innerText = desc;
     document.getElementById("detailTag").innerText = tag;
     
     document.getElementById("detailOfferPrice").innerText = "₹" + offerPrice.toLocaleString('en-IN');
@@ -1106,8 +1089,6 @@ function openProductDetail(title, imgArray, desc, tag, offerPrice, origPrice) {
 
     document.getElementById("productDetailModal").style.display = "flex";
     document.body.style.overflow = "hidden"; 
-    
-    setupTouchSwipe();
 }
 
 function moveSlider(direction) {
@@ -1136,31 +1117,6 @@ function updateSliderPosition() {
     });
 }
 
-let touchStartX = 0;
-let touchEndX = 0;
-
-function setupTouchSwipe() {
-    const container = document.getElementById("sliderContainer");
-    
-    container.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-
-    container.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipeGesture();
-    }, {passive: true});
-}
-
-function handleSwipeGesture() {
-    if (touchStartX - touchEndX > 50) {
-        moveSlider(-1);
-    }
-    if (touchEndX - touchStartX > 50) {
-        moveSlider(1);
-    }
-}
-
 function closeProductDetail() {
     document.getElementById("productDetailModal").style.display = "none";
     document.body.style.overflow = "auto"; 
@@ -1177,4 +1133,4 @@ switchCategory('door_locks', document.querySelector(".tab-btn"));
 </script>
 
 </body>
-</html>
+</html>          
