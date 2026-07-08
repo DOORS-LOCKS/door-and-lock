@@ -23,6 +23,7 @@
             --gold: #d4af37;
             --text: #c5c6c7;
             --bg-secondary: #1f2833;
+            --red-glow: #ff4757;
         }
 
         * {
@@ -40,9 +41,10 @@
 
         /* HEADER */
         header {
-            padding: 20px;
+            padding: 20px 20px 20px 0;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
             position: absolute;
             width: 100%;
             top: 0;
@@ -50,17 +52,112 @@
             z-index: 10;
         }
 
+        /* PREMIUM INTERNATIONAL LOOK FOR OFFERS BUTTON */
+        .btn-offer-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-decoration: none;
+            opacity: 0;
+            transform-origin: left center;
+            animation: slideFromLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-left: 3px solid var(--gold);
+            background: rgba(31, 40, 51, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 10px 24px 10px 18px;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-offer {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+            margin-bottom: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-offer-sub {
+            color: var(--gold);
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            opacity: 0.85;
+            transition: transform 0.3s ease;
+        }
+
+        /* PREMIUM SHIMMER EFFECT (INTERNATIONAL LUXURY FEEL) */
+        .btn-offer-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(214, 175, 55, 0.2),
+                transparent
+            );
+            transform: skewX(-20deg);
+            animation: luxuryShimmer 4s infinite linear 2s;
+        }
+
+        /* HOVER EFFECTS */
+        .btn-offer-container:hover {
+            background: rgba(214, 175, 55, 0.1);
+            box-shadow: 0 6px 30px rgba(214, 175, 55, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .btn-offer-container:hover .btn-offer {
+            color: var(--gold);
+        }
+
+        .btn-offer-container:hover .btn-offer-sub {
+            transform: translateX(4px);
+        }
+
+        @keyframes slideFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes luxuryShimmer {
+            0% { left: -150%; }
+            30% { left: 150%; }
+            100% { left: 150%; }
+        }
+
         /* CONTACT BUTTON */
         .btn-contact {
             padding: 12px 26px;
             border: 2px solid var(--gold);
-            border-radius: 999px;
+            border-radius: 10px;
             text-decoration: none;
             color: white;
             font-weight: bold;
             background: transparent;
             transition: .3s;
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); 
+            margin-left: auto;
         }
 
         .btn-contact:hover {
@@ -109,7 +206,7 @@
             line-height: 1.7;
         }
 
-        /* YELLOW BALL WITH SHADED TAIL INDICATOR */
+        /* SCROLL INDICATOR */
         .scroll-indicator {
             position: absolute;
             bottom: 40px;
@@ -174,7 +271,7 @@
 
         .about-content p {
             font-size: 18px;
-            line-line-height: 1.8;
+            line-height: 1.8;
             color: #afb1b6;
         }
 
@@ -219,6 +316,7 @@
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
+            scroll-margin-top: 40px;
         }
 
         .offer-container h3 {
@@ -254,6 +352,7 @@
             min-width: 100%;
             height: 100%;
             user-select: none;
+            position: relative;
         }
 
         .slider-item img {
@@ -263,7 +362,7 @@
             pointer-events: none;
         }
 
-        /* SLIDER INDICATOR DOTS (പുതുതായി ചേർത്തത്) */
+        /* SLIDER INDICATOR DOTS */
         .slider-dots {
             display: flex;
             justify-content: center;
@@ -294,8 +393,11 @@
 
         /* MOBILE RESPONSIVE */
         @media(max-width:768px) {
-            header { padding: 15px; }
-            .btn-contact { padding: 10px 20px; font-size: 14px; }
+            header { padding: 15px 15px 15px 0; }
+            .btn-contact { padding: 8px 16px; font-size: 13px; }
+            .btn-offer { font-size: 12px; letter-spacing: 1px; }
+            .btn-offer-sub { font-size: 9px; letter-spacing: 1.5px; }
+            .btn-offer-container { padding: 8px 16px 8px 12px; }
             .hero h1 { font-size: 32px; }
             .hero .location { font-size: 12px; }
             .about-content h2 { font-size: 28px; }
@@ -310,54 +412,51 @@
 <body>
 
     <header>
+        <div onclick="scrollToOffers()" class="btn-offer-container">
+            <span class="btn-offer">Offer closes soon</span>
+            <span class="btn-offer-sub">Click to view</span>
+        </div>
         <a href="contact.html" class="btn-contact">Contact</a>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="hero">
         <h1>DOORS <span>&</span> LOCKS</h1>
         <div class="location">ERATTUPETTA, KOTTAYAM</div>
         <p>Experience the perfect blend of luxury, security and timeless elegance.</p>
         
-        <!-- Interactive Yellow Ball Indicator -->
         <div class="scroll-indicator" id="scrollIndicator" onclick="scrollToContent()">
             <div class="scroll-ball"></div>
         </div>
     </section>
 
-    <!-- SECOND SECTION -->
     <section id="more-details" class="company-details">
         
-        <!-- Company Description -->
         <div class="about-content">
             <h2>Our <span>15 Years</span> of Excellence</h2>
             <p>For over a decade and a half, we have been delivering top-quality premium doors and high-security locking systems. We take pride in enhancing the beauty and safety of homes across Erattupetta and Kottayam with craftsmanship you can always trust.</p>
         </div>
 
-        <!-- Explore Buttons -->
         <div class="cta-buttons">
             <a href="doors.html" class="btn btn-gold">Explore Doors</a>
             <a href="locks.html" class="btn btn-outline">Explore Locks</a>
         </div>
 
-        <!-- Touch/Drag/Auto Slider -->
-        <div class="offer-container">
+        <div class="offer-container" id="offerSection">
             <h3>Special Offers & Updates</h3>
             <div class="offer-slider-space" id="sliderSpace">
                 <div class="slider-wrapper" id="sliderWrapper">
-                    <div class="slider-item">
+                    <div class="slider-item" data-link="index.html">
                         <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000" alt="Offer 1">
                     </div>
-                    <div class="slider-item">
+                    <div class="slider-item" data-link="index.html">
                         <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1000" alt="Offer 2">
                     </div>
-                    <div class="slider-item">
+                    <div class="slider-item" data-link="index.html">
                         <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1000" alt="Offer 3">
                     </div>
                 </div>
             </div>
             
-            <!-- Slider Dots Indicator (പുതുതായി ചേർത്തത്) -->
             <div class="slider-dots" id="sliderDots">
                 <div class="dot active" onclick="goToSlide(0)"></div>
                 <div class="dot" onclick="goToSlide(1)"></div>
@@ -379,6 +478,10 @@
             document.getElementById('more-details').scrollIntoView({ behavior: 'smooth' });
         }
 
+        function scrollToOffers() {
+            document.getElementById('offerSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 scrollIndicator.style.opacity = '0';
@@ -389,7 +492,7 @@
             }
         });
 
-        // 2. SWIPE / DRAG / AUTO SLIDER SCRIPT WITH DOTS
+        // 2. SWIPE / DRAG / AUTO SLIDER SCRIPT WITH DOTS & CLICK REDIRECT
         const slider = document.getElementById('sliderSpace');
         const wrapper = document.getElementById('sliderWrapper');
         const items = document.querySelectorAll('.slider-item');
@@ -402,8 +505,8 @@
         let animationID = 0;
         let currentIndex = 0;
         let autoSlideInterval;
+        let dragMoved = false;
 
-        // Touch & Mouse Events
         slider.addEventListener('mousedown', dragStart);
         slider.addEventListener('mouseup', dragEnd);
         slider.addEventListener('mouseleave', dragEnd);
@@ -416,14 +519,24 @@
         function dragStart(e) {
             clearInterval(autoSlideInterval);
             isDragging = true;
+            dragMoved = false;
             startX = getPositionX(e);
             animationID = requestAnimationFrame(animation);
         }
 
-        function dragEnd() {
+        function dragEnd(e) {
+            if(!isDragging) return;
             isDragging = false;
             cancelAnimationFrame(animationID);
             const movedBy = currentTranslate - prevTranslate;
+
+            if (Math.abs(movedBy) < 10 && !dragMoved) {
+                const targetLink = items[currentIndex].getAttribute('data-link');
+                if(targetLink) {
+                    window.location.href = targetLink;
+                }
+                return;
+            }
 
             if (movedBy < -100 && currentIndex < items.length - 1) currentIndex += 1;
             if (movedBy > 100 && currentIndex > 0) currentIndex -= 1;
@@ -435,7 +548,11 @@
         function drag(e) {
             if (!isDragging) return;
             const currentX = getPositionX(e);
-            currentTranslate = prevTranslate + (currentX - startX);
+            const diff = currentX - startX;
+            if (Math.abs(diff) > 5) {
+                dragMoved = true;
+            }
+            currentTranslate = prevTranslate + diff;
         }
 
         function getPositionX(e) {
@@ -458,7 +575,6 @@
             updateDots();
         }
 
-        // Dot ക്ലിക്ക് ചെയ്യുമ്പോൾ ആ സ്ലൈഡിലേക്ക് പോകാൻ
         function goToSlide(index) {
             clearInterval(autoSlideInterval);
             currentIndex = index;
@@ -466,13 +582,11 @@
             startAutoSlide();
         }
 
-        // ആക്റ്റീവ് ഡോട്ട് അപ്ഡേറ്റ് ചെയ്യാൻ
         function updateDots() {
             dots.forEach(dot => dot.classList.remove('active'));
             dots[currentIndex].classList.add('active');
         }
 
-        // Automatic Slide Function
         function startAutoSlide() {
             autoSlideInterval = setInterval(() => {
                 currentIndex++;
@@ -485,17 +599,16 @@
 
         startAutoSlide();
         window.addEventListener('resize', setPositionByIndex);
-        // Right-click disable cheyyan
-document.addEventListener('contextmenu', event => event.preventDefault());
 
-// Ctrl+U, F12, Ctrl+Shift+I block cheyyan
-document.onkeydown = function(e) {
-    if (e.keyCode == 123) { return false; } // F12
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
-    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
-}
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) { return false; }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+        }
     </script>
 
 </body>
