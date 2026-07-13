@@ -99,6 +99,7 @@ nav a.active, nav a:hover{
 color:var(--gold);
 }
 
+/* ഡെസ്ക്ടോപ്പിലെ Accessories ബട്ടൺ പിൽ ഡിസൈൻ */
 nav a#navAccessories {
 border: 1px solid var(--gold);
 border-radius: 999px;
@@ -360,7 +361,6 @@ line-height: 1.5;
 margin-bottom: 10px;
 }
 
-/* Image-ലുള്ളത് പോലെ പില്‍ ഡിസൈനിലുള്ള ഫോര്‍ മോര്‍ ബട്ടൺ സ്റ്റൈൽ */
 .for-more-badge {
 align-self: flex-start;
 background: #11151d;
@@ -425,6 +425,22 @@ font-size: 12px;
 background: var(--gold);
 color: #000;
 border-color: var(--gold);
+}
+
+/* കമ്പ്യൂട്ടറിനുള്ള പ്രീമിയം സ്റ്റോർ ഇൻഫോ ബാനർ സ്റ്റൈൽ */
+.store-info-banner {
+margin-top: 40px;
+padding: 18px;
+background: rgba(212, 175, 55, 0.02);
+border: 1px dashed rgba(212, 175, 55, 0.3);
+border-radius: 12px;
+text-align: center;
+color: var(--gold);
+font-size: 13px;
+font-weight: 600;
+letter-spacing: 1px;
+width: 100%;
+display: block; /* ഡെസ്ക്ടോപ്പിൽ കാണിക്കും */
 }
 
 .detail-overlay {
@@ -595,24 +611,9 @@ border-radius:999px;
 border: 1px solid rgba(255,255,255,0.04);
 }
 
-.detail-offer {
-font-size: 24px;
-font-weight: 700;
-color: var(--gold);
-}
-
-.detail-original {
-font-size: 15px;
-color: #666;
-text-decoration: line-through;
-}
-
-.detail-desc {
-color: #aaa;
-font-size: 15px;
-line-height: 1.7;
-margin-bottom: 20px;
-}
+.detail-offer { font-size: 24px; font-weight: 700; color: var(--gold); }
+.detail-original { font-size: 15px; color: #666; text-decoration: line-through; }
+.detail-desc { color: #aaa; font-size: 15px; line-height: 1.7; margin-bottom: 20px; }
 
 .detail-action-btns {
 display: flex;
@@ -690,6 +691,11 @@ opacity: 1;
 transform: translateX(0);
 }
 
+/* മൊബൈൽ വ്യൂവിൽ താഴെയുള്ള ബാനർ ഹൈഡ് ചെയ്യാൻ */
+.store-info-banner {
+display: none !important;
+}
+
 .mobile-nav-box { display: flex; }
 .container{ padding:12px; width:100%; }
 .panel{ padding:16px; border-radius:20px; width:100%; }
@@ -743,56 +749,25 @@ flex-direction: column;
 max-height: 90vh;
 overflow-y: auto;
 }
-.detail-img-box {
-min-height: 250px;
-height: 250px;
-flex: none;
-}
-.detail-info-box {
-padding: 20px;
-}
-.detail-title {
-font-size: 20px;
-margin-bottom: 10px;
-}
-.detail-price-box {
-padding: 8px 15px;
-margin-bottom: 15px;
-}
+.detail-img-box { min-height: 250px; height: 250px; flex: none; }
+.detail-info-box { padding: 20px; }
+.detail-title { font-size: 20px; margin-bottom: 10px; }
+.detail-price-box { padding: 8px 15px; margin-bottom: 15px; }
 .detail-offer { font-size: 18px; }
 .detail-original { font-size: 13px; }
-.detail-desc {
-font-size: 13px;
-margin-bottom: 20px;
-}
+.detail-desc { font-size: 13px; margin-bottom: 20px; }
 }
 
 @media(max-width:768px){
-.slider-dots{
-display:flex!important;
-justify-content:center;
-gap:10px;
-bottom:12px;
-}
-.slider-dots .dot{
-width:12px;
-height:12px;
-background:#444;
-border-radius:50%;
-}
-.slider-dots .dot.active{
-width:12px;
-background:var(--gold);
-box-shadow:0 0 8px var(--gold);
-transform:scale(1.2);
-}
+.slider-dots{ display:flex!important; justify-content:center; gap:10px; bottom:12px; }
+.slider-dots .dot{ width:12px; height:12px; background:#444; border-radius:50%; }
+.slider-dots .dot.active{ width:12px; background:var(--gold); box-shadow:0 0 8px var(--gold); transform:scale(1.2); }
 }
 
 .brand-flex-list::-webkit-scrollbar{height:8px}
 .brand-flex-list::-webkit-scrollbar-track{background:#121821;border-radius:20px}
 .brand-flex-list::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#7a6420,#d4af37,#7a6420);border-radius:20px;border:1px solid #d4af37}
 .brand-flex-list{scrollbar-color:#d4af37 #121821;scrollbar-width:thin;}
-
 </style>
 </head>
 
@@ -808,6 +783,7 @@ transform:scale(1.2);
 <a href="doors.html">Doors</a>
 <a href="locks.html" class="active" id="navLocks">Locks</a>
 <a href="contact.html">Contact</a>
+<a href="#" id="navAccessories" onclick="handleNavClick('accessories')">Accessories</a>
 </nav>
 </header>
 
@@ -834,6 +810,10 @@ transform:scale(1.2);
 </div>
 
 <div class="lock-grid" id="lockGrid"></div>
+
+<div class="store-info-banner">
+    &#10022; +50 More Custom Premium Designs & Sizes Available in Store! Contact Us directly to view full catalogue. &#10022;
+</div>
 
 </div>
 </div>
@@ -949,15 +929,18 @@ let totalSlides = 0;
 
 function handleNavClick(menuType) {
     const navLocks = document.getElementById("navLocks");
+    const navAccessories = document.getElementById("navAccessories");
     const mobLocks = document.getElementById("mobLocks");
     const mobAccessories = document.getElementById("mobAccessories");
     
     if(navLocks) navLocks.classList.remove("active");
+    if(navAccessories) navAccessories.classList.remove("active");
     if(mobLocks) mobLocks.classList.remove("active");
     if(mobAccessories) mobAccessories.classList.remove("active");
     
     if(menuType === 'accessories') {
         if(mobAccessories) mobAccessories.classList.add("active");
+        if(navAccessories) navAccessories.classList.add("active");
         
         document.getElementById("categoryTabsOuter").style.display = "none"; 
         document.getElementById("mainHeading").innerText = "PREMIUM ACCESSORIES";
@@ -1033,7 +1016,6 @@ function loadProducts(filterKey, element) {
         
         const imgsJsonStr = JSON.stringify(lock[1]).replace(/'/g, "\\'");
 
-        // ഇമേജിൽ ഉള്ളതുപോലെ പില്‍ ആകൃതിയിലുള്ള "FOR MORE" ബട്ടൺ കാർഡിൽ നൽകിയിരിക്കുന്നു
         grid.innerHTML += `
             <div class="card" onclick='openProductDetail("${titleEscaped}", ${imgsJsonStr}, "${descEscaped}", "${tagEscaped}", ${offerPrice}, ${origPrice})'>
                 <div class="img-box">
@@ -1130,12 +1112,13 @@ window.onclick = function(event) {
 }
 
 switchCategory('door_locks', document.querySelector(".tab-btn"));
-    // Right-click disable cheyyan
+
+// Right-click disable ചെയ്യാൻ
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-// Ctrl+U, F12, Ctrl+Shift+I block cheyyan
+// Ctrl+U, F12, Ctrl+Shift+I block ചെയ്യാൻ
 document.onkeydown = function(e) {
-    if (e.keyCode == 123) { return false; } // F12
+    if (e.keyCode == 123) { return false; } 
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
@@ -1144,4 +1127,4 @@ document.onkeydown = function(e) {
 </script>
 
 </body>
-</html>          
+</html>
