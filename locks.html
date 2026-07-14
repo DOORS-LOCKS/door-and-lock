@@ -99,7 +99,6 @@ nav a.active, nav a:hover{
 color:var(--gold);
 }
 
-/* ഡെസ്ക്ടോപ്പിലെ Accessories ബട്ടൺ പിൽ ഡിസൈൻ */
 nav a#navAccessories {
 border: 1px solid var(--gold);
 border-radius: 999px;
@@ -427,7 +426,6 @@ color: #000;
 border-color: var(--gold);
 }
 
-/* കമ്പ്യൂട്ടറിനുള്ള പ്രീമിയം സ്റ്റോർ ഇൻഫോ ബാനർ സ്റ്റൈൽ */
 .store-info-banner {
 margin-top: 40px;
 padding: 18px;
@@ -440,7 +438,7 @@ font-size: 13px;
 font-weight: 600;
 letter-spacing: 1px;
 width: 100%;
-display: block; /* ഡെസ്ക്ടോപ്പിൽ കാണിക്കും */
+display: block;
 }
 
 .detail-overlay {
@@ -607,39 +605,42 @@ gap: 15px;
 margin-bottom: 20px;
 background: rgba(255,255,255,0.02);
 padding: 12px 20px;
-border-radius:999px;
+border-radius:12px;
 border: 1px solid rgba(255,255,255,0.04);
 }
 
 .detail-offer { font-size: 24px; font-weight: 700; color: var(--gold); }
 .detail-original { font-size: 15px; color: #666; text-decoration: line-through; }
-.detail-desc { color: #aaa; font-size: 15px; line-height: 1.7; margin-bottom: 20px; }
+.detail-desc { color: #aaa; font-size: 15px; line-height: 1.7; margin-bottom: 25px; }
 
 .detail-action-btns {
 display: flex;
-gap: 15px;
+width: 100%;
 }
 
-.whatsapp-btn {
+/* ഇമേജിലുള്ളതുപോലെയുള്ള സിംഗിൾ പ്രീമിയം 'BOOK NOW' ബട്ടൺ ഡിസൈൻ */
+.detail-book-btn {
 flex: 1;
-padding: 15px;
-background: #25d366;
-color: #fff;
-border: none;
-border-radius: 12px;
+padding: 16px;
+background: transparent;
+color: var(--gold);
+border: 1px solid rgba(212, 175, 55, 0.4);
+border-radius: 10px;
 font-weight: 700;
 text-transform: uppercase;
-letter-spacing: 1px;
+letter-spacing: 1.5px;
 cursor: pointer;
 text-align: center;
 text-decoration: none;
 font-size: 13px;
-transition: 0.3s;
+transition: all 0.3s ease;
 }
 
-.whatsapp-btn:hover {
-background: #20ba5a;
-box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+.detail-book-btn:hover {
+background: var(--gold);
+color: #000;
+border-color: var(--gold);
+box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
 }
 
 @media(max-width:768px){
@@ -691,7 +692,6 @@ opacity: 1;
 transform: translateX(0);
 }
 
-/* മൊബൈൽ വ്യൂവിൽ താഴെയുള്ള ബാനർ ഹൈഡ് ചെയ്യാൻ */
 .store-info-banner {
 display: none !important;
 }
@@ -752,10 +752,11 @@ overflow-y: auto;
 .detail-img-box { min-height: 250px; height: 250px; flex: none; }
 .detail-info-box { padding: 20px; }
 .detail-title { font-size: 20px; margin-bottom: 10px; }
-.detail-price-box { padding: 8px 15px; margin-bottom: 15px; }
+.detail-price-box { padding: 8px 15px; margin-bottom: 15px; border-radius: 10px; }
 .detail-offer { font-size: 18px; }
 .detail-original { font-size: 13px; }
 .detail-desc { font-size: 13px; margin-bottom: 20px; }
+.detail-book-btn { padding: 12px; font-size: 12px; }
 }
 
 @media(max-width:768px){
@@ -834,11 +835,9 @@ overflow-y: auto;
 <span class="detail-offer" id="detailOfferPrice">₹0</span>
 <span class="detail-original" id="detailOriginalPrice">₹0</span>
 </div>
-<div class="for-more-badge" style="margin-bottom: 15px;">FOR MORE</div>
 <p class="detail-desc" id="detailDesc"></p>
 <div class="detail-action-btns">
-<button class="book-btn" id="detailBookBtn" style="flex:1; padding:15px;">Book Now</button>
-<a href="#" target="_blank" class="whatsapp-btn" id="detailWhatsappBtn">Enquire on WhatsApp</a>
+<a href="#" class="detail-book-btn" id="detailBookBtn">BOOK THROUGH WHATSAPP</a>
 </div>
 </div>
 </div>
@@ -1031,7 +1030,7 @@ function loadProducts(filterKey, element) {
                         <span class="original-price">₹${origPrice.toLocaleString('en-IN')}</span>
                         <span class="discount-badge">${discount}% OFF</span>
                     </div>
-                    <button class="book-btn" onclick="event.stopPropagation(); alert('${titleEscaped} booking request received!')">Book Now</button>
+                    <button class="book-btn" onclick="event.stopPropagation(); window.location.href='form.html?product=' + encodeURIComponent('${titleEscaped} (${tagEscaped})')">Book Now</button>
                 </div>
             </div>
         `;
@@ -1046,13 +1045,10 @@ function openProductDetail(title, imgArray, desc, tag, offerPrice, origPrice) {
     document.getElementById("detailOfferPrice").innerText = "₹" + offerPrice.toLocaleString('en-IN');
     document.getElementById("detailOriginalPrice").innerText = "₹" + origPrice.toLocaleString('en-IN');
     
+    // ഈ സിംഗിൾ ബട്ടൺ ക്ലിക്ക് ചെയ്യുമ്പോൾ നേരിട്ട് form.html-ലേക്ക് റീഡയറക്ട് ചെയ്യും
     document.getElementById("detailBookBtn").onclick = function() {
-        alert(title + ' booking request received!');
+        window.location.href = 'form.html?product=' + encodeURIComponent(title + ' (' + tag + ')');
     };
-
-    const whatsappNumber = "919000000000"; 
-    const whatsappMessage = encodeURIComponent("Hello, I'm interested in the product: " + title + " (" + tag + ") listed for ₹" + offerPrice.toLocaleString('en-IN') + ". Can I get more details?");
-    document.getElementById("detailWhatsappBtn").href = "https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage;
 
     const sliderWrapper = document.getElementById("sliderWrapper");
     const sliderDots = document.getElementById("sliderDots");
@@ -1113,10 +1109,8 @@ window.onclick = function(event) {
 
 switchCategory('door_locks', document.querySelector(".tab-btn"));
 
-// Right-click disable ചെയ്യാൻ
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-// Ctrl+U, F12, Ctrl+Shift+I block ചെയ്യാൻ
 document.onkeydown = function(e) {
     if (e.keyCode == 123) { return false; } 
     if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
