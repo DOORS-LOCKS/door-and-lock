@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Book Your Product - Premium Doors & Locks</title>
+<link rel="icon" type="image/png" href="favicon1.png" alt="Modern security door">
+
+<style>
+:root{
+--bg:#0b1017;
+--gold:#d4af37;
+--panel-bg: #141923;
+--card-bg: #1c222e;
+--input-bg: #0d1118;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Segoe UI', Arial, sans-serif;
+background:var(--bg);
+color:#fff;
+overflow-x:hidden;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 8%;
+border-bottom:1px solid #222;
+width: 100%;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+letter-spacing: 2px;
+text-decoration: none;
+color: #fff;
+}
+
+.logo span{
+color:var(--gold);
+}
+
+.container{
+padding:50px 8%;
+width: 100%;
+flex-grow: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.panel{
+background:linear-gradient(180deg,#141923,#0d1118);
+padding:45px;
+border-radius:28px;
+border: 1px solid rgba(255, 255, 255, 0.03);
+width: 100%;
+max-width: 600px;
+box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.heading{
+text-align:center;
+font-size:30px;
+font-weight: 800;
+letter-spacing: 2px;
+margin-bottom:10px;
+text-transform: uppercase;
+}
+
+.sub{
+text-align:center;
+color:var(--gold);
+margin-bottom:35px;
+font-size: 13px;
+letter-spacing: 2px;
+text-transform: uppercase;
+}
+
+.form-group {
+margin-bottom: 25px;
+}
+
+.form-group label {
+display: block;
+font-size: 12px;
+color: #888;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+margin-bottom: 8px;
+font-weight: 600;
+}
+
+.form-control {
+width: 100%;
+padding: 14px 18px;
+background: var(--input-bg);
+border: 1px solid rgba(255, 255, 255, 0.08);
+border-radius: 12px;
+color: #fff;
+font-size: 15px;
+font-family: inherit;
+transition: all 0.3s ease;
+}
+
+.form-control:focus {
+outline: none;
+border-color: var(--gold);
+box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.form-control:disabled {
+background: rgba(255, 255, 255, 0.02);
+color: #aaa;
+border-color: rgba(255, 255, 255, 0.04);
+cursor: not-allowed;
+}
+
+textarea.form-control {
+resize: vertical;
+min-height: 100px;
+}
+
+.submit-btn {
+width: 100%;
+padding: 15px;
+background: #25d366;
+color: #fff;
+border: none;
+border-radius: 12px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 1.5px;
+cursor: pointer;
+font-size: 14px;
+transition: 0.3s;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 10px;
+box-shadow: 0 5px 15px rgba(37, 211, 102, 0.2);
+margin-top: 10px;
+}
+
+.submit-btn:hover {
+background: #20ba5a;
+box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+transform: translateY(-2px);
+}
+
+.back-link {
+display: block;
+text-align: center;
+margin-top: 20px;
+color: #666;
+text-decoration: none;
+font-size: 13px;
+transition: 0.3s;
+letter-spacing: 1px;
+}
+
+.back-link:hover {
+color: var(--gold);
+}
+
+@media(max-width:768px){
+header { padding: 16px 5%; }
+.container { padding: 20px 15px; }
+.panel { padding: 25px 20px; border-radius: 20px; }
+.heading { font-size: 22px; }
+.sub { font-size: 11px; margin-bottom: 25px; }
+.form-control { padding: 12px 14px; font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+<a href="doors.html" class="logo">DOORS<span>&</span>LOCKS</a>
+</header>
+
+<div class="container">
+<div class="panel">
+
+<div class="heading">Book Order</div>
+<div class="sub">Complete details to send WhatsApp request</div>
+
+<form id="bookingForm" onsubmit="sendToWhatsApp(event)">
+    <div class="form-group">
+        <label for="productName">Selected Product</label>
+        <input type="text" id="productName" class="form-control" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="customerName">Your Name</label>
+        <input type="text" id="customerName" class="form-control" placeholder="Enter your full name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="customerNumber">WhatsApp Number</label>
+        <input type="tel" id="customerNumber" class="form-control" placeholder="Enter your contact number" required>
+    </div>
+
+    <div class="form-group">
+        <label for="customerAddress">Delivery Address</label>
+        <textarea id="customerAddress" class="form-control" placeholder="Enter full address with landmark" required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">
+        Send Booking Request
+    </button>
+</form>
+
+<a href="doors.html" class="back-link">← Back to Products</a>
+
+</div>
+</div>
+
+<script>
+// URL-ൽ നിന്നും product name എടുത്ത് ഇൻപുട്ടിൽ കാണിക്കാൻ
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const product = urlParams.get('product');
+    if (product) {
+        document.getElementById('productName').value = decodeURIComponent(product);
+    } else {
+        document.getElementById('productName').value = "No product selected";
+    }
+});
+
+function sendToWhatsApp(event) {
+    event.preventDefault();
+
+    // വിവരങ്ങൾ ശേഖരിക്കുന്നു
+    const product = document.getElementById('productName').value;
+    const name = document.getElementById('customerName').value;
+    const number = document.getElementById('customerNumber').value;
+    const address = document.getElementById('customerAddress').value;
+
+    // വാട്സാപ്പ് നമ്പറും (നിങ്ങളുടെ കടയുടെ നമ്പർ ഇവിടെ നൽകുക) സന്ദേശവും സെറ്റ് ചെയ്യുന്നു
+    const shopWhatsAppNumber = "919000000000"; 
+    
+    const message = `*NEW BOOKING REQUEST*\n` +
+                    `---------------------------\n` +
+                    `*Product:* ${product}\n` +
+                    `*Customer Name:* ${name}\n` +
+                    `*Contact Number:* ${number}\n` +
+                    `*Address:* ${address}\n` +
+                    `---------------------------`;
+
+    const whatsappURL = `https://wa.me/${shopWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+
+    // പുതിയ ടാബിൽ വാട്സാപ്പിലേക്ക് പോകും
+    window.open(whatsappURL, '_blank');
+}
+
+// സുരക്ഷാ ക്രമീകരണങ്ങൾ (Right-click & shortcuts ഡിസേബിൾ ചെയ്യൽ)
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+document.onkeydown = function(e) {
+    if (e.keyCode == 123) { return false; } 
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+}
+</script>
+
+</body>
+</html>
