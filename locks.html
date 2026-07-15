@@ -122,6 +122,7 @@ width: 100%;
 }
 
 .panel{
+background:gradient(180deg,#161b23,#11151d);
 background:linear-gradient(180deg,#161b23,#11151d);
 padding:45px;
 border-radius:28px;
@@ -618,7 +619,6 @@ display: flex;
 width: 100%;
 }
 
-/* ഇമേജിലുള്ളതുപോലെയുള്ള സിംഗിൾ പ്രീമിയം 'BOOK NOW' ബട്ടൺ ഡിസൈൻ */
 .detail-book-btn {
 flex: 1;
 padding: 16px;
@@ -981,18 +981,26 @@ function switchCategory(catName, element) {
     filterList.innerHTML = "";
     document.getElementById("lockGrid").innerHTML = "";
 
-    Object.keys(data[catName]).forEach((filterItem, index) => {
-        const activeClass = index === 0 ? 'active' : '';
+    // "NONE" ബട്ടൺ ലിസ്റ്റിലേക്ക് ചേർക്കുന്നു (ഇത് എപ്പോഴും Active ആയിരിക്കും)
+    filterList.innerHTML += `
+        <div class="brand-card active" onclick="loadProducts('NONE', this)">
+            NONE
+        </div>
+    `;
+
+    // മറ്റ് ബ്രാൻഡുകൾ ലിസ്റ്റിലേക്ക് ചേർക്കുന്നു
+    Object.keys(data[catName]).forEach((filterItem) => {
         filterList.innerHTML += `
-            <div class="brand-card ${activeClass}" onclick="loadProducts('${filterItem}', this)">
+            <div class="brand-card" onclick="loadProducts('${filterItem}', this)">
                 ${filterItem}
             </div>
         `;
     });
 
+    // തുടക്കത്തിൽ തന്നെ 'NONE' ബട്ടൺ ഓട്ടോമാറ്റിക് ആയി ക്ലിക്ക് ചെയ്യിച്ച് എല്ലാ ബ്രാൻഡും കാണിക്കുന്നു
     const firstFilter = filterList.querySelector(".brand-card");
     if(firstFilter) {
-        firstFilter.click();
+        loadProducts('NONE', firstFilter);
     }
 }
 
@@ -1003,7 +1011,26 @@ function loadProducts(filterKey, element) {
     const grid = document.getElementById("lockGrid");
     grid.innerHTML = "";
 
-    data[currentCategory][filterKey].forEach(lock => {
+    let itemsToLoad = [];
+
+    // 'NONE' സെലക്ട് ചെയ്തിരിക്കുകയാണെങ്കിൽ ആ കാറ്റഗറിയിലെ മുഴുവൻ പ്രൊഡക്റ്റുകളും ലിസ്റ്റിലേക്ക് എടുക്കുന്നു
+    if (filterKey === 'NONE') {
+        Object.keys(data[currentCategory]).forEach(key => {
+            data[currentCategory][key].forEach(item => {
+                itemsToLoad.push({ productData: item, brandTag: key });
+            });
+        });
+    } else {
+        // ഒരു പ്രത്യേക ബ്രാൻഡ് മാത്രമാണെങ്കിൽ അത് മാത്രം എടുക്കുന്നു
+        data[currentCategory][filterKey].forEach(item => {
+            itemsToLoad.push({ productData: item, brandTag: filterKey });
+        });
+    }
+
+    itemsToLoad.forEach((obj) => {
+        const lock = obj.productData;
+        const brandTag = obj.brandTag;
+        
         const offerPrice = lock[3];
         const origPrice = lock[4];
         
@@ -1011,7 +1038,7 @@ function loadProducts(filterKey, element) {
 
         const titleEscaped = lock[0].replace(/'/g, "\\'");
         const descEscaped = lock[2].replace(/'/g, "\\'");
-        const tagEscaped = filterKey.replace(/'/g, "\\'");
+        const tagEscaped = brandTag.replace(/'/g, "\\'");
         
         const imgsJsonStr = JSON.stringify(lock[1]).replace(/'/g, "\\'");
 
@@ -1021,7 +1048,7 @@ function loadProducts(filterKey, element) {
                     <img src="${lock[1][0]}" alt="${lock[0]}" loading="lazy">
                 </div>
                 <div class="info">
-                    <span class="brand-tag">${filterKey}</span>
+                    <span class="brand-tag">${brandTag}</span>
                     <h3>${lock[0]}</h3>
                     <p>${lock[2]}</p>
                     <div class="for-more-badge">FOR MORE</div>
@@ -1045,7 +1072,6 @@ function openProductDetail(title, imgArray, desc, tag, offerPrice, origPrice) {
     document.getElementById("detailOfferPrice").innerText = "₹" + offerPrice.toLocaleString('en-IN');
     document.getElementById("detailOriginalPrice").innerText = "₹" + origPrice.toLocaleString('en-IN');
     
-    // ഈ സിംഗിൾ ബട്ടൺ ക്ലിക്ക് ചെയ്യുമ്പോൾ നേരിട്ട് form.html-ലേക്ക് റീഡയറക്ട് ചെയ്യും
     document.getElementById("detailBookBtn").onclick = function() {
         window.location.href = 'form.html?product=' + encodeURIComponent(title + ' (' + tag + ')');
     };
@@ -1083,7 +1109,7 @@ function goToSlide(index) {
 
 function updateSliderPosition() {
     const sliderWrapper = document.getElementById("sliderWrapper");
-    sliderWrapper.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+    if(sliderWrapper) sliderWrapper.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
     
     const dots = document.querySelectorAll("#sliderDots .dot");
     dots.forEach((dot, index) => {
