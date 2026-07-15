@@ -456,6 +456,34 @@ from { opacity: 0; transform: scale(0.95); }
 to { opacity: 1; transform: scale(1); }
 }
 
+/* ഡെസ്ക്ടോപ്പിനുള്ള പ്രീമിയം സർക്കിൾ ക്ലോസ് ബട്ടൺ */
+.close-detail-btn {
+position: absolute;
+top: 25px;
+right: 25px;
+background: rgba(20, 25, 35, 0.6);
+border: 1.5px solid var(--gold);
+color: var(--gold);
+font-size: 20px;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center;
+transition: all 0.3s ease;
+z-index: 2010;
+backdrop-filter: blur(5px);
+}
+
+.close-detail-btn:hover {
+background: var(--gold);
+color: #0b1017;
+box-shadow: 0 0 15px var(--gold);
+transform: scale(1.05);
+}
+
 /* --- COMPUTER VIEW STYLING --- */
 .detail-img-box {
 flex: 1;
@@ -705,6 +733,11 @@ height: 250px;
 overflow: hidden !important;
 }
 
+/* മൊബൈൽ മീഡിയയിൽ ക്ലോസ് ബട്ടൺ ഹൈഡ് ചെയ്തു */
+.close-detail-btn {
+display: none !important;
+}
+
 .slider-wrapper {
 display: flex;
 width: 100%;
@@ -776,7 +809,6 @@ overflow-y: auto;
 
 <div class="product-grid" id="productGrid"></div>
 
-<!-- Custom indicator for Wood and Fibre doors panels -->
 <div class="more-designs-indicator" id="moreDesignsNotice">
 ✦ +50 More Custom Premium Designs & Sizes Available in Store! Contact Us directly to view full catalogue. ✦
 </div>
@@ -784,9 +816,9 @@ overflow-y: auto;
 </div>
 </div>
 
-<!-- PRODUCT MODAL LAYER -->
 <div class="detail-overlay" id="productDetailModal">
 <div class="detail-container">
+<button class="close-detail-btn" onclick="closeProductDetail()">&times;</button>
 <div class="detail-img-box" id="detailImgBox">
 <button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
 <button class="slider-btn next" onclick="moveSlider(1)">&#10095;</button>
@@ -937,18 +969,26 @@ function switchCategory(catName, element) {
     filterList.innerHTML = "";
     document.getElementById("productGrid").innerHTML = "";
 
-    Object.keys(data[catName]).forEach((filterItem, index) => {
-        const activeClass = index === 0 ? 'active' : '';
+    // "NONE" ബട്ടൺ ലിസ്റ്റിലേക്ക് ചേർക്കുന്നു (ഇത് എപ്പോഴും Active ആയിരിക്കും)
+    filterList.innerHTML += `
+        <div class="filter-card active" onclick="loadProducts('NONE', this)">
+            NONE
+        </div>
+    `;
+
+    // മറ്റ് ബ്രാൻഡുകൾ ലിസ്റ്റിലേക്ക് ചേർക്കുന്നു
+    Object.keys(data[catName]).forEach((filterItem) => {
         filterList.innerHTML += `
-            <div class="filter-card ${activeClass}" onclick="loadProducts('${filterItem}', this)">
+            <div class="filter-card" onclick="loadProducts('${filterItem}', this)">
                 ${filterItem}
             </div>
         `;
     });
 
+    // തുടക്കത്തിൽ തന്നെ 'NONE' ബട്ടൺ ഓട്ടോമാറ്റിക് ആയി ക്ലിക്ക് ചെയ്യിച്ച് എല്ലാ ബ്രാൻഡും കാണിക്കുന്നു
     const firstFilter = filterList.querySelector(".filter-card");
     if(firstFilter) {
-        firstFilter.click();
+        loadProducts('NONE', firstFilter);
     }
 }
 
@@ -959,7 +999,26 @@ function loadProducts(filterKey, element) {
     const grid = document.getElementById("productGrid");
     grid.innerHTML = "";
 
-    data[currentCategory][filterKey].forEach((item) => {
+    let itemsToLoad = [];
+
+    // 'NONE' ആണ് സെലക്ട് ചെയ്തിരിക്കുന്നതെങ്കിൽ ആ കാറ്റഗറിയിലെ മുഴുവൻ പ്രൊഡക്റ്റുകളും ലിസ്റ്റിലേക്ക് എടുക്കുന്നു
+    if (filterKey === 'NONE') {
+        Object.keys(data[currentCategory]).forEach(key => {
+            data[currentCategory][key].forEach(item => {
+                itemsToLoad.push({ productData: item, brandTag: key });
+            });
+        });
+    } else {
+        // ഒരു പ്രത്യേക ബ്രാൻഡ് മാത്രമാണെങ്കിൽ അത് മാത്രം എടുക്കുന്നു
+        data[currentCategory][filterKey].forEach(item => {
+            itemsToLoad.push({ productData: item, brandTag: filterKey });
+        });
+    }
+
+    itemsToLoad.forEach((obj) => {
+        const item = obj.productData;
+        const brandTag = obj.brandTag;
+        
         const offerPrice = item[3];
         const origPrice = item[4];
         const discount = (origPrice && origPrice > offerPrice) ? Math.round(((origPrice - offerPrice) / origPrice) * 100) : 0;
@@ -967,7 +1026,7 @@ function loadProducts(filterKey, element) {
         const titleEscaped = item[0].replace(/'/g, "\\'");
         const imgEscaped = item[1].replace(/'/g, "\\'");
         const descEscaped = item[2].replace(/'/g, "\\'");
-        const tagEscaped = filterKey.replace(/'/g, "\\'");
+        const tagEscaped = brandTag.replace(/'/g, "\\'");
 
         grid.innerHTML += `
             <div class="card" onclick="openProductDetail('${titleEscaped}', '${imgEscaped}', '${descEscaped}', '${tagEscaped}', ${offerPrice}, ${origPrice})">
@@ -975,7 +1034,7 @@ function loadProducts(filterKey, element) {
                     <img src="${item[1]}" alt="${item[0]}" loading="lazy">
                 </div>
                 <div class="info">
-                    <span class="tag">${filterKey}</span>
+                    <span class="tag">${brandTag}</span>
                     <h3>${item[0]}</h3>
                     <p>${item[2]}</p>
                     <div class="price-box">
@@ -1048,7 +1107,7 @@ function updateSliderPosition() {
     const wrapper = document.getElementById("sliderWrapper");
     const dots = document.querySelectorAll(".dot");
     
-    wrapper.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+    if(wrapper) wrapper.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
     
     dots.forEach((dot, idx) => {
         if (idx === currentSlideIndex) dot.classList.add("active");
